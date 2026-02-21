@@ -7,6 +7,7 @@ export const APP_PATHS = Object.freeze({
 });
 
 export const SWAGGER_TAGS = Object.freeze({
+    HEALTH: 'health',
     USER: 'users',
     AUTH: 'auth',
     SIGN_UP: 'signup',

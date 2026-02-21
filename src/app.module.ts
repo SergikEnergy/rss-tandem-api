@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { isProduction } from './common/envs';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
     imports: [
@@ -8,6 +9,7 @@ import { isProduction } from './common/envs';
             envFilePath: isProduction ? '.env' : '.env',
             isGlobal: true,
         }),
+        HealthModule,
     ],
     controllers: [],
     providers: [],
