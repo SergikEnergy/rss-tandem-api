@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { isProduction } from './common/envs';
 import { HealthModule } from './modules/health/health.module';
+import { UsersModule } from './modules/users/users/users.module';
+import { DatabaseModule } from './modules/database/database.module';
 
 @Module({
     imports: [
@@ -10,6 +12,8 @@ import { HealthModule } from './modules/health/health.module';
             isGlobal: true,
         }),
         HealthModule,
+        UsersModule,
+        DatabaseModule,
     ],
     controllers: [],
     providers: [],
