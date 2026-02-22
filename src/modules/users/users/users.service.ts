@@ -1,26 +1,83 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { ErrorMessage } from '../../../common/error-message';
+import { hashString } from '../../../utils/validate-password';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+    constructor(
+        @InjectRepository(User)
+        private usersRepository: Repository<User>,
+    ) {}
 
-  findAll() {
-    return `This action returns all users`;
-  }
+    private async hashPassword(password: string): Promise<string> {
+        try {
+            return await hashString(password);
+        } catch {
+            throw new InternalServerErrorException(ErrorMessage.HASH_PASSWORD_ERROR);
+        }
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    private async checkUserExist(login: string): Promise<void> {
+        const userWithLogin = await this.usersRepository.findOne({
+            where: { login },
+        });
+        if (userWithLogin) {
+            throw new BadRequestException(ErrorMessage.USER_EXIST_LOGIN);
+        }
+    }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    async findByLogin(login: string): Promise<User> {
+        const existedUser = await this.usersRepository.findOne({
+            where: { login },
+        });
+        if (!existedUser) throw new NotFoundException(ErrorMessage.USER_NOT_FOUND);
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+        return existedUser;
+    }
+
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const { password, ...restUserData } = createUserDto;
+        const hashPassword = await this.hashPassword(password);
+
+        await this.checkUserExist(restUserData.login);
+
+        const userInfo: Omit<User, 'id'> = { ...restUserData, password: hashPassword };
+
+        const newUser = this.usersRepository.create(userInfo);
+        return await this.usersRepository.save(newUser);
+    }
+
+    async findAll(): Promise<User[]> {
+        return await this.usersRepository.find();
+    }
+
+    async findById(id: number): Promise<User> {
+        const existedUser = await this.usersRepository.findOne({ where: { id } });
+        if (!existedUser) throw new NotFoundException(ErrorMessage.USER_NOT_FOUND);
+
+        return existedUser;
+    }
+
+    async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+        // update password not implemented
+        const { password, ...restUserInfo } = updateUserDto;
+
+        const user = await this.findByLogin(restUserInfo.login ?? '');
+
+        const userInfo: User = { ...user, ...restUserInfo };
+
+        await this.usersRepository.update({ id }, userInfo);
+
+        return userInfo;
+    }
+
+    async removeById(id: number) {
+        await this.findById(id);
+        this.usersRepository.delete({ id });
+    }
 }

@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { HealthService } from './health.service';
 import { APP_PATHS, SWAGGER_TAGS } from 'src/common/constants';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(SWAGGER_TAGS.HEALTH)
 @Controller(APP_PATHS.HEALTH)
