@@ -8,7 +8,7 @@ import { DatabaseModule } from './modules/database/database.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
-            envFilePath: isProduction ? '.env' : '.env',
+            envFilePath: isProduction ? '.env' : '.env.dev',
             isGlobal: true,
         }),
         HealthModule,
