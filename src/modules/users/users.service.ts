@@ -4,8 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { ErrorMessage } from '../../../common/error-message';
-import { hashString } from '../../../utils/validate-password';
+import { ErrorMessage } from '../../common/error-message';
+import { hashString } from '../../utils/validate-password';
 
 @Injectable()
 export class UsersService {

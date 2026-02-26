@@ -2,8 +2,19 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { isProduction } from '../../common/envs';
 import { checkEnvExist } from '../../utils/check-env-exist';
-import { GetAsyncTypeOrmConfig } from 'src/types/database';
+import { GetAsyncTypeOrmConfig } from '../../types/database';
 import { getMetadataArgsStorage } from 'typeorm';
+
+type DbCredentials = {
+    user: string;
+    password: string;
+    host: string;
+    port: number;
+    database: string;
+};
+
+export const getPostgresDbUrl = ({ host, password, port, user, database }: Partial<DbCredentials>) =>
+    `postgresql://${user}:${password}@${host}:${port}/${database}`;
 
 const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
     const dbEnvs = {
@@ -20,14 +31,18 @@ const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
 
     return {
         type: 'postgres',
+        database,
         host,
+        password,
         port,
         username,
-        password,
-        database,
         // Only enable this option if your application is in development,
         synchronize: !isProduction,
         autoLoadEntities: true,
+        retryAttempts: 3,
+        retryDelay: 3000,
+        connectTimeoutMS: 20000,
+        logging: isProduction ? ['error', 'warn'] : ['error'],
     };
 };
 
