@@ -1,98 +1,117 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Project Setup Guide
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📋 Prerequisites
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Node.js (v22.14.0 or higher) - strict min version showed inside `.nvmrc`
+- npm as a package manager (don't use yarn in order to avoid error)
+- Running Docker Desktop for testing app in dev mode (PostgreSQL is inside container)
 
-## Description
+## 🚀 Quick Start
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Development Mode with Docker (Recommended)
 
-## Project setup
+This setup runs PostgreSQL in Docker and NestJS locally for development:
 
 ```bash
-$ npm install
+# Start the development environment
+npm run start:docker
 ```
 
-## Compile and run the project
+This command runs two processes concurrently:
+
+- `docker:start` - Starts PostgreSQL in Docker container
+- `start:dev` - Starts NestJS in watch mode with hot-reload
+
+### Other Docker Commands
 
 ```bash
-# development
-$ npm run start
+# Start only Docker containers (PostgreSQL)
+npm run docker:start
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Stop and remove Docker containers
+npm run docker:stop
 ```
 
-## Run tests
+### Production Mode with Local Database
+
+For production with locally hosted PostgreSQL:
 
 ```bash
-# unit tests
-$ npm run test
+# Build the application
+npm run build
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Start in production mode
+npm run start:prod
 ```
 
-## Deployment
+### Standard Development (Local Database)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+If you have PostgreSQL running locally:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Start development server with hot-reload
+npm run start:dev
+
+# Start with debug mode
+npm run start:debug
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🔧 Environment Configuration
 
-## Resources
+### Environment Files
 
-Check out a few resources that may come in handy when working with NestJS:
+The project uses different environment files based on the `NODE_ENV`:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- `.env.dev` - Used with `start:dev` and `start:docker`
+- `.env` - Used with `start:prod`
 
-## Support
+### Environment Variables
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Contact the author to get the required environment variables for:
 
-## Stay in touch
+- Database configuration
+- API keys
+- Other sensitive configuration
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🐘 Database Setup
 
-## License
+### With Docker (Development)
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+PostgreSQL will automatically start when you run `npm run docker:start` or `npm run start:docker`
+
+## 📞 Support
+
+For environment variables and configuration details, please contact the project author directly.
+
+---
+
+**Note**: Make sure to never commit sensitive environment variables to version control. All `.env` files should be in `.gitignore`.
+
+### With Docker (Development)
+
+PostgreSQL will automatically start when you run `npm run docker:start` or `npm run start:docker`
+
+## 📞 Support
+
+For environment variables and configuration details, please contact the project author directly.
+
+📚 API Documentation
+
+### Swagger UI
+
+This project includes Swagger documentation for easy API testing and exploration.
+
+Once the application is running, access the Swagger documentation at:
+
+text
+`http://localhost:3000/doc`
+
+The Swagger UI provides:
+
+- Interactive API testing interface
+
+- Request/response schemas
+
+- Authentication requirements
+
+- Available endpoints and methods
