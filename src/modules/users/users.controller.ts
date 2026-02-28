@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { APP_PATHS } from '../../../common/constants';
+import { APP_PATHS } from '../../common/constants';
 
 @Controller(APP_PATHS.USER)
 export class UsersController {

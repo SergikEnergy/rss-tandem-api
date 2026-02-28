@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { isProduction } from '../common/envs';
 
 dotenvConfig({
-    path: resolve(process.cwd(), isProduction ? '.env' : '.env'),
+    path: resolve(process.cwd(), isProduction ? '.env' : '.env.dev'),
 });
 
 export const hashString = async (password: string) => {

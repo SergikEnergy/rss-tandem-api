@@ -4,8 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { ErrorMessage } from '../../../common/error-message';
-import { hashString } from '../../../utils/validate-password';
+import { ErrorMessage } from '../../common/error-message';
+import { hashString } from '../../utils/validate-password';
 
 @Injectable()
 export class UsersService {
@@ -22,12 +22,18 @@ export class UsersService {
         }
     }
 
-    private async checkUserExist(login: string): Promise<void> {
+    async checkUserExist(login: string, email?: string): Promise<void> {
         const userWithLogin = await this.usersRepository.findOne({
             where: { login },
         });
         if (userWithLogin) {
             throw new BadRequestException(ErrorMessage.USER_EXIST_LOGIN);
+        }
+        if (!email) return;
+
+        const userWithEmail = await this.usersRepository.findOne({ where: { email } });
+        if (userWithEmail) {
+            throw new BadRequestException(ErrorMessage.USER_EXIST_EMAIL);
         }
     }
 

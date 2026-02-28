@@ -1,7 +1,8 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { HealthService } from './health.service';
-import { APP_PATHS, SWAGGER_TAGS } from 'src/common/constants';
+import { APP_PATHS, SWAGGER_TAGS } from '../../common/constants';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '../auth/guards/is-public';
 
 @ApiTags(SWAGGER_TAGS.HEALTH)
 @Controller(APP_PATHS.HEALTH)
@@ -9,6 +10,7 @@ export class HealthController {
     constructor(private readonly healthService: HealthService) {}
 
     @Get()
+    @IsPublic()
     @ApiOperation({ summary: 'Get current date in string format' })
     @ApiResponse({
         status: HttpStatus.OK,

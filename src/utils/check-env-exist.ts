@@ -10,5 +10,6 @@ export const checkEnvExist = (envs: Record<string, string | undefined | number |
             .toUpperCase();
         throw new Error(`Missing database ENV variables: ${missingEnvsString}`);
     }
+
     return envs;
 };
