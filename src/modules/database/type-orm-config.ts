@@ -5,17 +5,6 @@ import { checkEnvExist } from '../../utils/check-env-exist';
 import { GetAsyncTypeOrmConfig } from '../../types/database';
 import { getMetadataArgsStorage } from 'typeorm';
 
-type DbCredentials = {
-    user: string;
-    password: string;
-    host: string;
-    port: number;
-    database: string;
-};
-
-export const getPostgresDbUrl = ({ host, password, port, user, database }: Partial<DbCredentials>) =>
-    `postgresql://${user}:${password}@${host}:${port}/${database}`;
-
 const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
     const dbEnvs = {
         host: config.get<string>('DB_HOST'),
@@ -24,7 +13,6 @@ const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
         username: config.get<string>('DB_USER'),
         password: config.get<string>('DB_PASSWORD'),
     };
-
     checkEnvExist(dbEnvs);
 
     const { database, host, password, port, username } = dbEnvs;
