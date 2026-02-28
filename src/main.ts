@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { EXPOSED_HEADERS, METHODS, ORIGINS } from './common/cors';
+import { METHODS, ORIGINS } from './common/cors';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SWAGGER_TAGS } from './common/constants';
 import { HealthModule } from './modules/health/health.module';
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 const swaggerConfig = new DocumentBuilder()
     .setTitle('API for RSS Tandem <<RSS - 2026>>')
@@ -26,7 +27,6 @@ async function bootstrap() {
         origin: ORIGINS,
         methods: METHODS,
         credentials: true,
-        exposedHeaders: EXPOSED_HEADERS,
     });
 
     app.useGlobalPipes(
@@ -39,7 +39,7 @@ async function bootstrap() {
 
     const documentFactory = () =>
         SwaggerModule.createDocument(app, swaggerConfig, {
-            include: [HealthModule, UsersModule],
+            include: [HealthModule, UsersModule, AuthModule],
         });
 
     SwaggerModule.setup('doc', app, documentFactory);
