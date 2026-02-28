@@ -1,11 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MAX_LOGIN_LENGTH, MAX_PASS_LENGTH, MIN_LOGIN_LENGTH, MIN_PASS_LENGTH } from '../../../common/constants';
-import { shouldBeString, shouldRequired } from '../../../common/generate-mesages';
-import { IsNotEmpty, IsOptional, IsString, Length, Matches } from 'class-validator';
+import { notValidMessage, shouldBeString, shouldRequired } from '../../../common/generate-mesages';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from 'class-validator';
 import { PASSWORD_REGEXP } from '../../../common/reg-ex';
 import { ErrorMessage } from '../../../common/error-message';
 
 export class CreateUserDto {
+    @ApiProperty({
+        example: 'testUser3434@gmail.com',
+        required: true,
+        type: String,
+    })
+    @IsString()
+    @IsEmail({}, { message: notValidMessage('email') })
+    @IsNotEmpty({
+        message: shouldRequired('email'),
+    })
+    email: string;
+
     @ApiProperty({
         example: 'SuperUser',
         required: true,

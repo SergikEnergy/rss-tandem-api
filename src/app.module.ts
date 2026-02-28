@@ -7,6 +7,7 @@ import { DatabaseModule } from './modules/database/database.module';
 import { LoggerModule } from './modules/logger/logger.module';
 import { LoggerService } from './modules/logger/logger.service';
 import { LoggerMiddleware } from './modules/logger/logger.middleware';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { LoggerMiddleware } from './modules/logger/logger.middleware';
         UsersModule,
         DatabaseModule,
         LoggerModule,
+        AuthModule,
     ],
     controllers: [],
     providers: [LoggerService],
