@@ -37,7 +37,11 @@ export const EMAIL_REQUIRED: ApiResponseOptions = {
 export const LOG_IN_SUCCESS: ApiResponseOptions = {
     status: HttpStatus.OK,
     description: 'Пользователь успешно создан',
-    example: SUCCESS_LOGIN,
+    example: {
+        accessToken:
+            'test3eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyNDI2MjIsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+        ...SUCCESS_LOGIN,
+    },
 };
 
 export const INVALID_CREDENTIALS: ApiResponseOptions = {

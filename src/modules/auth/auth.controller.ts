@@ -55,8 +55,8 @@ export class AuthController {
     })
     @HttpCode(HttpStatus.OK)
     async login(@GetUser() user: User) {
-        await this.authService.signIn(user);
+        const accessToken = await this.authService.signIn(user);
 
-        return SUCCESS_LOGIN;
+        return { accessToken, ...SUCCESS_LOGIN };
     }
 }
