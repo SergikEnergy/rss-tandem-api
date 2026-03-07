@@ -7,7 +7,6 @@ import { TokenPayload } from './interfaces/token-payload.interface';
 import { ErrorMessage } from '../../common/error-message';
 
 import { User } from '../users/entities/user.entity';
-import { IAccessToken } from './interfaces/access-token.interface';
 
 import { compareStrings } from '../../utils/validate-password';
 
@@ -27,10 +26,8 @@ export class AuthService {
         return user;
     }
 
-    async signIn(user: User): Promise<IAccessToken> {
-        const accessToken = await this.generateAccessToken({ login: user.login, userId: String(user.id) });
-
-        return { access: accessToken };
+    async signIn(user: User): Promise<string> {
+        return await this.generateAccessToken({ login: user.login, userId: String(user.id) });
     }
 
     async verifyUser(login: string, password: string) {
