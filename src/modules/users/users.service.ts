@@ -7,11 +7,14 @@ import { Repository } from 'typeorm';
 import { ErrorMessage } from '../../common/error-message';
 import { hashString } from '../../utils/validate-password';
 
+import { TokenService } from '../shared/token.service';
+
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
         private usersRepository: Repository<User>,
+        private tokenService: TokenService,
     ) {}
 
     private async hashPassword(password: string): Promise<string> {
@@ -44,6 +47,14 @@ export class UsersService {
         if (!existedUser) throw new NotFoundException(ErrorMessage.USER_NOT_FOUND);
 
         return existedUser;
+    }
+
+    async findByToken(token: string): Promise<Partial<User>> {
+        const id = await this.tokenService.getUserIdFromToken(token);
+
+        const { email, login, firstName, lastName, createdAt, updatedAt } = await this.findById(+id);
+
+        return { email, login, firstName, lastName, createdAt, updatedAt };
     }
 
     async create(createUserDto: CreateUserDto): Promise<User> {

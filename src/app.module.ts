@@ -8,6 +8,7 @@ import { LoggerModule } from './modules/logger/logger.module';
 import { LoggerService } from './modules/logger/logger.service';
 import { LoggerMiddleware } from './modules/logger/logger.middleware';
 import { AuthModule } from './modules/auth/auth.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './modules/auth/auth.module';
         DatabaseModule,
         LoggerModule,
         AuthModule,
+        SharedModule,
     ],
     controllers: [],
     providers: [LoggerService],
