@@ -9,6 +9,8 @@ import { JwtStrategy } from './strategies/jwt-strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth-guard';
 
+import { SharedModule } from '../shared/shared.module';
+
 const authProviders: Provider[] = [AuthService, LocalStrategy, JwtStrategy];
 
 const globalProviders: Provider[] = [
@@ -20,7 +22,7 @@ const globalProviders: Provider[] = [
 
 @Module({
     controllers: [AuthController],
-    imports: [UsersModule, PassportModule, JwtModule],
+    imports: [UsersModule, PassportModule, JwtModule, SharedModule],
     providers: [...authProviders, ...globalProviders],
     exports: [AuthService, JwtModule],
 })

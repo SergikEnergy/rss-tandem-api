@@ -1,21 +1,20 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+
 import { SignUpDto } from './dto/sign-up.dto';
-import { TokenPayload } from './interfaces/token-payload.interface';
+
 import { ErrorMessage } from '../../common/error-message';
 
 import { User } from '../users/entities/user.entity';
 
 import { compareStrings } from '../../utils/validate-password';
+import { TokenService } from '../shared/token.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userService: UsersService,
-        private readonly configService: ConfigService,
-        private readonly jwtService: JwtService,
+        private readonly tokenService: TokenService,
     ) {}
 
     async signUp(signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
@@ -27,7 +26,7 @@ export class AuthService {
     }
 
     async signIn(user: User): Promise<string> {
-        return await this.generateAccessToken({ login: user.login, userId: String(user.id) });
+        return await this.tokenService.generateAccessToken({ login: user.login, userId: String(user.id) });
     }
 
     async verifyUser(login: string, password: string) {
@@ -47,19 +46,5 @@ export class AuthService {
         }
 
         return isPasswordsValid;
-    }
-
-    private async generateAccessToken(payload: TokenPayload) {
-        try {
-            const expiresMin = Number(this.configService.get<string>('JWT_ACCESS_TOKEN_EXPIRATION_MIN') ?? 60);
-            const secret = this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET');
-
-            return await this.jwtService.signAsync(payload, {
-                expiresIn: expiresMin * 60 * 1000, //min to ms
-                secret,
-            });
-        } catch {
-            throw new InternalServerErrorException(ErrorMessage.ERROR_CREATE_JWT_TOKEN);
-        }
     }
 }
