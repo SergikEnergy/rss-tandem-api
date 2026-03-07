@@ -6,7 +6,6 @@ import { SignUpDto } from './dto/sign-up.dto';
 import { ErrorMessage } from '../../common/error-message';
 
 import { User } from '../users/entities/user.entity';
-import { IAccessToken } from './interfaces/access-token.interface';
 
 import { compareStrings } from '../../utils/validate-password';
 import { TokenService } from '../shared/token.service';
@@ -26,10 +25,8 @@ export class AuthService {
         return user;
     }
 
-    async signIn(user: User): Promise<IAccessToken> {
-        const accessToken = await this.tokenService.generateAccessToken({ login: user.login, userId: String(user.id) });
-
-        return { access: accessToken };
+    async signIn(user: User): Promise<string> {
+        return await this.tokenService.generateAccessToken({ login: user.login, userId: String(user.id) });
     }
 
     async verifyUser(login: string, password: string) {
