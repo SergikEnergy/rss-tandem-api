@@ -46,16 +46,6 @@ export class UsersController {
         return this.usersService.findAll();
     }
 
-    @Get(':login')
-    @ApiOperation({ summary: 'Получение информации пользователя по его логину' })
-    @ApiBearerAuth()
-    @ApiResponse(GET_ME_SUCCESS)
-    @ApiResponse(UNAUTHORIZED)
-    @ApiResponse(INTERNAL_SERVER_ERROR)
-    findOne(@Param('login') login: string) {
-        return this.usersService.findByLogin(login);
-    }
-
     @Get('me')
     @ApiOperation({ summary: 'Получение информации по пользователю' })
     @ApiBearerAuth()
@@ -64,10 +54,21 @@ export class UsersController {
     @ApiResponse(INTERNAL_SERVER_ERROR)
     getMe(@Req() req: Request) {
         const authHeader = req.headers.authorization;
-        if (!authHeader || authHeader.startsWith('Bearer ')) throw new UnauthorizedException('User is not authorized!');
+        if (!authHeader || !authHeader.startsWith('Bearer '))
+            throw new UnauthorizedException('User is not authorized!');
 
-        const [_, token] = authHeader.split('Bearer; ');
+        const [_, token] = authHeader.split('Bearer ');
         return this.usersService.findByToken(token);
+    }
+
+    @Get(':login')
+    @ApiOperation({ summary: 'Получение информации пользователя по его логину' })
+    @ApiBearerAuth()
+    @ApiResponse(GET_ME_SUCCESS)
+    @ApiResponse(UNAUTHORIZED)
+    @ApiResponse(INTERNAL_SERVER_ERROR)
+    findOne(@Param('login') login: string) {
+        return this.usersService.findByLogin(login);
     }
 
     @Patch(':id')
