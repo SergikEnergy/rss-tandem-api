@@ -24,13 +24,13 @@ const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
         password,
         port,
         username,
-        // Only enable this option if your application is in development,
-        synchronize: !isProduction,
+        // Keep false when using migrations to avoid schema drift
+        synchronize: false,
         autoLoadEntities: true,
         retryAttempts: 3,
         retryDelay: 3000,
         connectTimeoutMS: 20000,
-        migrations: ['src/database/migrations/*-migration.ts'],
+        migrations: ['dist/modules/database/migrations/*-migration.js'],
         migrationsRun: false,
         logging: isProduction ? ['error', 'warn'] : ['error'],
     };
