@@ -18,8 +18,6 @@ export class AuthService {
     ) {}
 
     async signUp(signUpDto: SignUpDto): Promise<Omit<User, 'password'>> {
-        await this.userService.checkUserExist(signUpDto.login, signUpDto.email);
-
         const { password, ...user } = await this.userService.create(signUpDto);
 
         return user;

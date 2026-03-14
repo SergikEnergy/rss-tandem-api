@@ -61,7 +61,7 @@ export class UsersService {
         const { password, ...restUserData } = createUserDto;
         const hashPassword = await this.hashPassword(password);
 
-        await this.checkUserExist(restUserData.login);
+        await this.checkUserExist(restUserData.login, restUserData.email);
 
         const userInfo: Omit<User, 'id'> = { ...restUserData, password: hashPassword };
 
