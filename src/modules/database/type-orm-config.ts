@@ -30,6 +30,8 @@ const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
         retryAttempts: 3,
         retryDelay: 3000,
         connectTimeoutMS: 20000,
+        migrations: ['src/database/migrations/*-migration.ts'],
+        migrationsRun: false,
         logging: isProduction ? ['error', 'warn'] : ['error'],
     };
 };
