@@ -6,7 +6,6 @@ import {
     Patch,
     Param,
     Delete,
-    ParseIntPipe,
     UseInterceptors,
     ClassSerializerInterceptor,
     SerializeOptions,
@@ -73,14 +72,14 @@ export class UsersController {
 
     @Patch(':id')
     @ApiExcludeEndpoint()
-    update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
         return this.usersService.update(id, updateUserDto);
     }
 
     @Delete(':id')
     @ApiOperation({ summary: 'Пока недоступна' })
     @ApiExcludeEndpoint()
-    remove(@Param('id', ParseIntPipe) id: number) {
+    remove(@Param('id') id: string) {
         return this.usersService.removeById(id);
     }
 }

@@ -4,6 +4,7 @@ export const APP_PATHS = Object.freeze({
     AUTH: 'auth',
     SIGN_UP: 'signup',
     LOGIN: 'login',
+    QUIZZES: 'quizzes',
 });
 
 export const SWAGGER_TAGS = Object.freeze({
@@ -12,6 +13,7 @@ export const SWAGGER_TAGS = Object.freeze({
     AUTH: 'auth',
     SIGN_UP: 'signup',
     LOGIN: 'login',
+    QUIZZES: 'quizzes',
 });
 
 export enum Environment {
@@ -24,3 +26,5 @@ export const MAX_PASS_LENGTH = 30;
 
 export const MIN_LOGIN_LENGTH = 5;
 export const MAX_LOGIN_LENGTH = 30;
+
+export const DEFAULT_QUESTION_LIMIT = 10;

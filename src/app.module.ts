@@ -9,6 +9,7 @@ import { LoggerService } from './modules/logger/logger.service';
 import { LoggerMiddleware } from './modules/logger/logger.middleware';
 import { AuthModule } from './modules/auth/auth.module';
 import { SharedModule } from './modules/shared/shared.module';
+import { QuizzesModule } from './modules/quizzes/quizzes.module';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { SharedModule } from './modules/shared/shared.module';
         LoggerModule,
         AuthModule,
         SharedModule,
+        QuizzesModule,
     ],
     controllers: [],
     providers: [LoggerService],
