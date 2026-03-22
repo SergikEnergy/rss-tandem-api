@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { METHODS, ORIGINS } from './common/cors';
 import { ValidationPipe } from '@nestjs/common';
+
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SWAGGER_TAGS } from './common/constants';
 import { HealthModule } from './modules/health/health.module';

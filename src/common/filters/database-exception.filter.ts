@@ -8,10 +8,12 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
 
+        const errorDetail = 'detail' in exception ? exception.detail : exception.message;
+
         response.status(HttpStatus.BAD_REQUEST).json({
             statusCode: HttpStatus.BAD_REQUEST,
-            details: 'detail' in exception.driverError ? exception.driverError.detail : exception.driverError,
-            message: exception.message,
+            detail: errorDetail,
+            message: exception.driverError.message,
         });
     }
 }

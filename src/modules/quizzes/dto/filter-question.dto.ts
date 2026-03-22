@@ -11,7 +11,7 @@ export class FilterQuestionDto {
     @Type(() => Number)
     limit?: number;
 
-    @ApiPropertyOptional({ name: 'type', required: false, example: QuestionType.MULTIPLE_CHOICE })
+    @ApiPropertyOptional({ name: 'type', required: false, example: QuestionType.SINGLE_CHOICE })
     @IsOptional()
     @IsEnum(QuestionType)
     questionType?: QuestionType;

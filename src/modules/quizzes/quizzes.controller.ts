@@ -19,6 +19,7 @@ export class QuizzesController {
         return await this.quizzesService.createQuestion(createQuestionDto);
     }
 
+    @IsPublic()
     @Get(':topic/:subtopic')
     async findAll(
         @Param('topic') topic: string,
@@ -28,6 +29,7 @@ export class QuizzesController {
         return await this.quizzesService.findAllQuestions(topic, subtopic, filterDto);
     }
 
+    @IsPublic()
     @Get(':id')
     async findOne(@Param('id') id: string) {
         return await this.quizzesService.findQuestion(id);

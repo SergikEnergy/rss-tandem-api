@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { QuizQuestion } from './quiz-question.entity';
 
@@ -12,12 +13,15 @@ export class QuizAnswer {
     @Column({ default: false })
     isCorrect: boolean;
 
+    @Exclude()
     @ManyToOne(() => QuizQuestion, (question) => question.answers, { onDelete: 'CASCADE' })
     question: QuizQuestion;
 
+    @Exclude({ toClassOnly: true })
     @CreateDateColumn()
     createdAt?: Date;
 
+    @Exclude({ toClassOnly: true })
     @UpdateDateColumn()
     updatedAt?: Date;
 }

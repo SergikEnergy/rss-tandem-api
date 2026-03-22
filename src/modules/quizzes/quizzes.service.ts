@@ -23,19 +23,28 @@ export class QuizzesService {
         const { answers, ...questionData } = createQuestionDto;
 
         const newQuestion = this.questionsRepository.create(questionData);
+        const savedQuestion = await this.questionsRepository.save(newQuestion);
 
         if (isArrayWithItems(answers)) {
             const answersEntities = answers.map((answerDto) =>
                 this.answersRepository.create({
                     ...answerDto,
-                    question: newQuestion,
+                    question: savedQuestion,
                 }),
             );
 
-            newQuestion.answers = await this.answersRepository.save(answersEntities);
+            savedQuestion.answers = await this.answersRepository.save(answersEntities);
         }
 
-        return await this.questionsRepository.save(newQuestion);
+        delete savedQuestion.createdAt;
+        delete savedQuestion.updatedAt;
+        savedQuestion.answers.map((answer) => {
+            const { createdAt, updatedAt, ...restAnswer } = answer;
+
+            return restAnswer;
+        });
+
+        return savedQuestion;
     }
 
     async findAllQuestions(topic?: string, subtopic?: string, filterDto?: FilterQuestionDto): Promise<QuizQuestion[]> {
@@ -48,7 +57,7 @@ export class QuizzesService {
         const where: FindOptionsWhere<QuizQuestion> = {
             topic,
             subtopic,
-            type: filterDto?.questionType ?? QuestionType.MULTIPLE_CHOICE,
+            type: filterDto?.questionType ?? QuestionType.SINGLE_CHOICE,
         };
 
         const questions = await this.questionsRepository.find({
