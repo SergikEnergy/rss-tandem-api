@@ -25,7 +25,7 @@ const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
         port,
         username,
         // Keep false when using migrations to avoid schema drift
-        synchronize: false,
+        synchronize: !isProduction,
         autoLoadEntities: true,
         retryAttempts: 3,
         retryDelay: 3000,

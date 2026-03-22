@@ -7,6 +7,7 @@ import { SWAGGER_TAGS } from './common/constants';
 import { HealthModule } from './modules/health/health.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { DatabaseExceptionFilter } from './common/filters/database-exception.filter';
 
 const swaggerConfig = new DocumentBuilder()
     .setTitle('API for RSS Tandem <<RSS - 2026>>')
@@ -15,6 +16,7 @@ const swaggerConfig = new DocumentBuilder()
     .addTag(SWAGGER_TAGS.HEALTH)
     .addTag(SWAGGER_TAGS.AUTH)
     .addTag(SWAGGER_TAGS.USER)
+    .addTag(SWAGGER_TAGS.QUIZZES)
     .build();
 
 async function bootstrap() {
@@ -36,6 +38,8 @@ async function bootstrap() {
             transform: true,
         }),
     );
+
+    app.useGlobalFilters(new DatabaseExceptionFilter());
 
     const documentFactory = () =>
         SwaggerModule.createDocument(app, swaggerConfig, {

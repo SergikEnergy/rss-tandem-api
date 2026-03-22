@@ -82,7 +82,7 @@ export class QuizzesService {
         Object.assign(question, questionData);
 
         if (answers) {
-            if (question.answers && question.answers.length > 0) {
+            if (isArrayWithItems(question.answers)) {
                 await this.answersRepository.delete({ question: { id } });
             }
             const answersEntities = answers.map((answerDto) =>

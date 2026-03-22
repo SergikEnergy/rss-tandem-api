@@ -14,7 +14,7 @@ export class QuizQuestion {
     @Column()
     subtopic: string;
 
-    @Column()
+    @Column({ unique: true })
     questionDescription: string;
 
     @OneToMany(() => QuizAnswer, (answer: QuizAnswer) => answer.question, { cascade: true })

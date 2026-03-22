@@ -34,6 +34,10 @@ export class CreateQuestionDto {
         required: true,
         type: String,
     })
+    @IsString()
+    @IsNotEmpty({
+        message: shouldRequired('questionDescription'),
+    })
     questionDescription: string;
 
     @ApiProperty({
