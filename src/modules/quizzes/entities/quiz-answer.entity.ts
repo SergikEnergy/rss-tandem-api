@@ -17,11 +17,11 @@ export class QuizAnswer {
     @ManyToOne(() => QuizQuestion, (question) => question.answers, { onDelete: 'CASCADE' })
     question: QuizQuestion;
 
-    @Exclude({ toClassOnly: true })
+    @Exclude({ toPlainOnly: true })
     @CreateDateColumn()
     createdAt?: Date;
 
-    @Exclude({ toClassOnly: true })
+    @Exclude({ toPlainOnly: true })
     @UpdateDateColumn()
     updatedAt?: Date;
 }

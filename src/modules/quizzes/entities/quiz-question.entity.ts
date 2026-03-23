@@ -24,11 +24,11 @@ export class QuizQuestion {
     @Column({ type: 'enum', enum: QuestionType, default: QuestionType.SINGLE_CHOICE })
     type?: QuestionType;
 
-    @Exclude({ toClassOnly: true })
+    @Exclude({ toPlainOnly: true })
     @CreateDateColumn()
     createdAt?: Date;
 
-    @Exclude({ toClassOnly: true })
+    @Exclude({ toPlainOnly: true })
     @UpdateDateColumn()
     updatedAt?: Date;
 }

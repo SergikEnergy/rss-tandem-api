@@ -36,14 +36,6 @@ export class QuizzesService {
             savedQuestion.answers = await this.answersRepository.save(answersEntities);
         }
 
-        delete savedQuestion.createdAt;
-        delete savedQuestion.updatedAt;
-        savedQuestion.answers.map((answer) => {
-            const { createdAt, updatedAt, ...restAnswer } = answer;
-
-            return restAnswer;
-        });
-
         return savedQuestion;
     }
 
