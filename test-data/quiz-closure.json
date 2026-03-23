@@ -1,0 +1,15 @@
+{
+    "topic": "javascript",
+    "subtopic": "closures",
+    "questionDescription": "What is a closure in JavaScript?",
+    "type": "MULTIPLE_CHOICE",
+    "answers": [
+        {
+            "answerText": "A function that has access to variables from its outer scope even after the outer function returns",
+            "isCorrect": true
+        },
+        { "answerText": "A way to close the browser window", "isCorrect": false },
+        { "answerText": "A method to end a loop", "isCorrect": false },
+        { "answerText": "A type of error handling", "isCorrect": false }
+    ]
+}

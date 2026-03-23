@@ -11,6 +11,17 @@ export const INTERNAL_SERVER_ERROR = {
     },
 };
 
+export const BAD_REQUEST_ERROR = {
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request - validation error or database error',
+    schema: {
+        example: {
+            statusCode: 400,
+            message: 'Error message',
+        },
+    },
+};
+
 export const UNAUTHORIZED = {
     status: HttpStatus.FORBIDDEN,
     description: 'Ошибка авторизации',

@@ -52,7 +52,7 @@ export class UsersService {
     async findByToken(token: string): Promise<Partial<User>> {
         const id = await this.tokenService.getUserIdFromToken(token);
 
-        const { email, login, firstName, lastName, createdAt, updatedAt } = await this.findById(+id);
+        const { email, login, firstName, lastName, createdAt, updatedAt } = await this.findById(id);
 
         return { email, login, firstName, lastName, createdAt, updatedAt };
     }
@@ -73,14 +73,14 @@ export class UsersService {
         return await this.usersRepository.find();
     }
 
-    async findById(id: number): Promise<User> {
+    async findById(id: string): Promise<User> {
         const existedUser = await this.usersRepository.findOne({ where: { id } });
         if (!existedUser) throw new NotFoundException(ErrorMessage.USER_NOT_FOUND);
 
         return existedUser;
     }
 
-    async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
         // update password not implemented
         const { password, ...restUserInfo } = updateUserDto;
 
@@ -93,7 +93,7 @@ export class UsersService {
         return userInfo;
     }
 
-    async removeById(id: number) {
+    async removeById(id: string) {
         await this.findById(id);
         this.usersRepository.delete({ id });
     }

@@ -24,7 +24,7 @@ export class AuthService {
     }
 
     async signIn(user: User): Promise<string> {
-        return await this.tokenService.generateAccessToken({ login: user.login, userId: String(user.id) });
+        return await this.tokenService.generateAccessToken({ login: user.login, userId: user.id });
     }
 
     async verifyUser(login: string, password: string) {

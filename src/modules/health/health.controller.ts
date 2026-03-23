@@ -11,7 +11,7 @@ export class HealthController {
 
     @Get()
     @IsPublic()
-    @ApiOperation({ summary: 'Get current date in string format' })
+    @ApiOperation({ summary: 'Healthcheck - тестовый ендпоинт для проверки работоспособности сервера' })
     @ApiResponse({
         status: HttpStatus.OK,
         description: 'return current date',

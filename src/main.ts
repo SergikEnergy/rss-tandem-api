@@ -1,12 +1,15 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { METHODS, ORIGINS } from './common/cors';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SWAGGER_TAGS } from './common/constants';
 import { HealthModule } from './modules/health/health.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { DatabaseExceptionFilter } from './common/filters/database-exception.filter';
+import { QuizzesModule } from './modules/quizzes/quizzes.module';
 
 const swaggerConfig = new DocumentBuilder()
     .setTitle('API for RSS Tandem <<RSS - 2026>>')
@@ -15,6 +18,7 @@ const swaggerConfig = new DocumentBuilder()
     .addTag(SWAGGER_TAGS.HEALTH)
     .addTag(SWAGGER_TAGS.AUTH)
     .addTag(SWAGGER_TAGS.USER)
+    .addTag(SWAGGER_TAGS.QUIZZES)
     .build();
 
 async function bootstrap() {
@@ -37,9 +41,13 @@ async function bootstrap() {
         }),
     );
 
+    app.useGlobalFilters(new DatabaseExceptionFilter());
+
+    app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
     const documentFactory = () =>
         SwaggerModule.createDocument(app, swaggerConfig, {
-            include: [HealthModule, UsersModule, AuthModule],
+            include: [HealthModule, UsersModule, AuthModule, QuizzesModule],
         });
 
     SwaggerModule.setup('doc', app, documentFactory);
