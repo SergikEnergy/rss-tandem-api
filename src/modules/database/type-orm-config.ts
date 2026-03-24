@@ -16,6 +16,7 @@ const checkDbEnv = (config: ConfigService): TypeOrmModuleOptions => {
     checkEnvExist(dbEnvs);
 
     const { database, host, password, port, username } = dbEnvs;
+    console.log(isProduction, config.get('PORT'), 'PROD');
 
     return {
         type: 'postgres',
