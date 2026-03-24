@@ -14,7 +14,7 @@
     "docker:stop": "docker-compose down",
     "start:docker": "concurrently \"npm run docker:start\" \"npm run start:dev\"",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "cross-env NODE_ENV=production node dist/main.js",
+    "start:prod": "cross-env NODE_ENV=production node dist/main",
     "migration:generate": "npx ts-node -P ./tsconfig.migrations.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/modules/database/migrations-config.ts ./src/modules/database/migrations/migration",
     "migration:create": "npx ts-node -P ./tsconfig.migrations.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -d ./src/modules/database/migrations-config.ts ./src/modules/database/migrations/migration",
     "migration:run": "npx ts-node -P ./tsconfig.migrations.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/modules/database/migrations-config.ts",

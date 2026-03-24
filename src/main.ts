@@ -53,19 +53,6 @@ async function bootstrap() {
     SwaggerModule.setup('doc', app, documentFactory);
 
     await app.listen(process.env.PORT ?? 8080);
-
-    setTimeout(() => {
-        console.log('BEFORE_CRASH_LOG');
-    }, 9000);
-
-    setTimeout(() => {
-        console.log('CRASHING_NOW');
-        process.exit(1);
-    }, 10_000);
-
-    setTimeout(() => {
-        console.log('AFTER_CRASH_LOG');
-    }, 15000);
 }
 
 bootstrap();
